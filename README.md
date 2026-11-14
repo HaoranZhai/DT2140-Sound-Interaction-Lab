@@ -6,7 +6,7 @@
 A smartphone instrument with four gesture-to-sound connections. It uses real device sensors and four course-provided Faust models compiled to WebAssembly. The sounds are synthesized in the browser.
 
 - [Own GitHub repository](https://github.com/HaoranZhai/DT2140-Sound-Interaction-Lab) - fork created.
-- [GitHub Pages demonstration](https://haoranzhai.github.io/DT2140-Sound-Interaction-Lab/) - deployment verification pending.
+- [GitHub Pages demonstration](https://haoranzhai.github.io/DT2140-Sound-Interaction-Lab/) - verified HTTP 200 on 2026-11-14.
 - [English lab report](docs/LAB_REPORT.md) · [中文演示指南](docs/DEMO_GUIDE_ZH.md) · [Canvas submission text](docs/CANVAS_SUBMISSION.txt)
 
 ## Use on a phone
@@ -83,4 +83,4 @@ This project is based on the [DT2140 course starter](https://github.com/smc-kth/
 
 ## Remaining examination steps
 
-The implementation and software checks are documented, but physical-phone verification and laboratory-assistant approval have not yet been recorded. Test all four mappings and their negative controls on the phone used for the lab, record the device/browser details, and demonstrate the work to an assistant. At least three connections must be approved to pass. No separate partner or individual-work approval is claimed.
+The implementation and software checks are documented, and the GitHub Pages deployment is live. Physical-phone verification and laboratory-assistant approval have not yet been recorded. Test all four mappings and their negative controls on the phone used for the lab, record the device/browser details, and demonstrate the work to an assistant. At least three connections must be approved to pass. No separate partner or individual-work approval is claimed.
