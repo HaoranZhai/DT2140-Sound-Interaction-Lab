@@ -21,7 +21,7 @@ The project connects smartphone movement to four sound models supplied with the 
 
 **Scenario:** A visitor plays a virtual handbell in an interactive sound exhibit. Shaking resembles the physical action that moves a handbell's clapper, so the sound has an understandable causal relationship to the action. Repeated discrete attacks support rhythmic play.
 
-**Design:** The detector requires three alternating movement-acceleration peaks within a short window, rather than interpreting gravity or a single push as a shake. Trigger timing prevents a single motion from producing an uncontrolled burst of bell attacks. The supplied bell model is synthesized at runtime through Faust/WebAssembly.
+**Design:** The detector requires two alternating movement-acceleration peaks within a short window, rather than interpreting gravity or a single push as a shake. Trigger timing prevents a single motion from producing an uncontrolled burst of bell attacks. The supplied bell model is synthesized at runtime through Faust/WebAssembly.
 
 **Demonstration:** Hold the phone still, perform a deliberate back-and-forth shake, then repeat the motion. Compare the silent stationary state with the discrete bell events. Very slow repositioning and a single push should not count as deliberate shaking.
 
@@ -57,8 +57,8 @@ The initial settings below are defined in [the gesture engine](../js/gestures.js
 
 | Mapping | Recognition and stability settings |
 | --- | --- |
-| Bells | Three alternating peaks of at least 7 m/s² in 800 ms; below 3 m/s² rearms each peak; minimum peak spacing 70 ms; cooldown 320 ms. |
-| Wind | Calibrated roll magnitude; 5° dead zone and full force at 45°; 120 ms smoothing time constant. |
+| Bells | Two alternating peaks of at least 5 m/s² in 900 ms; below 3 m/s² rearms each peak; minimum peak spacing 50 ms; cooldown 220 ms. |
+| Wind | Calibrated absolute roll magnitude; audible from about 10° and full force at 70°; 120 ms smoothing time constant. |
 | Thunder | Acceleration magnitude at least 16 m/s² for 40 ms; below 7 m/s² for 120 ms rearms the detector; cooldown 1,400 ms. |
 | Torpedo | Top edge within 20° of vertical for 350 ms; leaving to at least 35° rearms; cooldown 1,200 ms. |
 
