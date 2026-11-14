@@ -1,0 +1,24 @@
+DT2140 Lab 2: Sound and Gestures in Interaction
+
+Participant: Haoran Zhai
+Partner: None; working individually.
+
+Repository: https://github.com/HaoranZhai/DT2140-Sound-Interaction-Lab
+Live demonstration: https://haoranzhai.github.io/DT2140-Sound-Interaction-Lab/
+Live deployment verification is pending.
+
+Implemented connections:
+
+1. Phone is shaken -> Bells.
+   Alternating acceleration peaks trigger a bell strike. The action resembles shaking a handbell, giving a clear physical metaphor for rhythmic interaction.
+
+2. Phone is placed flat in the hand and tilted from side to side -> Wind.
+   Greater tilt produces stronger wind; returning toward the calibrated center reduces it. The continuous mapping lets a user control the intensity of a virtual weather scene.
+
+3. Phone detects very large movements, but not small ones -> Thunder.
+   A strong acceleration event triggers thunder, while small movements remain below the threshold. A forceful gesture fits the expressive intensity of a virtual storm. Here, movement size is operationalized as acceleration rather than distance travelled.
+
+4. Phone is used to point straight up -> Sci-Fi photon torpedo.
+   Holding the phone's top edge upward briefly triggers one torpedo; moving away rearms it. This represents aiming a virtual launcher and provides feedback for the recognized pose.
+
+All four sounds use the supplied Faust synthesis models compiled to WebAssembly. The repository contains source code, compiled assets, automated checks, and a fuller design report. Software tests and numerical audio checks have been run. Physical-phone verification and laboratory-assistant approval have not yet been recorded; simulated controls are labelled as synthetic input.
