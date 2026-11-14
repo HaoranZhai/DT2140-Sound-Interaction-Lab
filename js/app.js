@@ -14,6 +14,7 @@ const modes={
 let mode='bell',source='none',sensorEnabled=false,events=0,demoToken=0;
 let motionArrival=-Infinity,orientationArrival=-Infinity,lastRender=0;
 let motionHealthy=false,orientationHealthy=false;
+const mobileDevice=/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)||navigator.maxTouchPoints>0;
 const eventLog=[];
 const clock=()=>performance.now();
 const notice=text=>{$('notice').textContent=text;};
@@ -82,6 +83,11 @@ $('volume').addEventListener('input',event=>{const value=Number(event.target.val
 $('sensor-enable').addEventListener('click',async()=>{
   demoToken++;source='phone';engine.reset();audio.setWind(0);motionArrival=orientationArrival=-Infinity;
   motionHealthy=orientationHealthy=false;$('demo-run').disabled=false;
+  if(!mobileDevice){
+    source='none';sensorEnabled=false;status('motion','desktop');status('orientation','desktop');
+    notice('This page is running on a computer. USB does not forward phone sensors to this browser; open the HTTPS page directly on the phone, then tap Enable sensors there.');
+    draw(engine.snapshot,true);return;
+  }
   if(!globalThis.isSecureContext){notice('Motion sensors need HTTPS. Open the published GitHub Pages link on your phone.');source='none';draw(engine.snapshot,true);return;}
   const permissions=['DeviceMotionEvent','DeviceOrientationEvent'].map(name=>{
     const Constructor=globalThis[name];
@@ -172,3 +178,4 @@ $('demo-tilt').addEventListener('input',async event=>{
   }
 });
 chooseMode('bell');
+if(!mobileDevice) notice('Computer preview: USB does not forward phone sensors here. Open the HTTPS page directly on your phone for Motion and Orientation data.');
