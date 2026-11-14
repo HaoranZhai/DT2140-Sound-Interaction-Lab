@@ -4,7 +4,6 @@ Participant: Haoran Zhai
 Partner: None; working individually.
 
 Repository: https://github.com/HaoranZhai/DT2140-Sound-Interaction-Lab
-Live demonstration: https://haoranzhai.github.io/DT2140-Sound-Interaction-Lab/
 Live demonstration: https://haoranzhai.github.io/DT2140-Sound-Interaction-Lab/ (GitHub Pages verified HTTP 200 on 2026-11-14).
 
 Implemented connections:
