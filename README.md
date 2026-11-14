@@ -54,9 +54,9 @@ npm test
 node tools/check-audio.mjs
 ```
 
-Current software checks cover **17 gesture tests and 7 audio tests**. The gesture checks cover positive/negative inputs, thresholds, cooldowns, calibration, missing data, and angle handling. The audio checks cover loading, playback lifecycle, parameter clamping, switching modes, stopping, and missing-asset failure.
+Current software checks cover **18 gesture tests and 7 audio tests (25/25 passing)**. The gesture checks cover positive/negative inputs, repeatable shake retriggering, thresholds, cooldowns, calibration, missing data, and angle handling. The audio checks cover loading, playback lifecycle, parameter clamping, switching modes, stopping, and missing-asset failure.
 
-The offline audio check executes all four actual Faust WASM models through the course DSP bridge. Each produces finite, nonzero stereo samples. Numerical results are saved in [audio/validation.json](audio/validation.json). These checks do not establish physical sensor behavior or subjective listening quality.
+The offline audio check executes all four actual Faust WASM models through the course DSP bridge. Each produces finite, nonzero stereo samples. The browser adds a perceptual lift at low wind force and caps the wind model's upper frequency control to avoid a piercing high-angle sound. Numerical results are saved in [audio/validation.json](audio/validation.json). These checks do not establish physical sensor behavior or subjective listening quality.
 
 To regenerate the audio assets from the course DSP sources:
 

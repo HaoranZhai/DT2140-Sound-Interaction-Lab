@@ -30,6 +30,8 @@ An unpacked compiler package can alternatively be selected with the environment 
 
 `js/audio.js` creates/resumes the audio context only when `start()` is called directly from a user gesture. A mode connects only its selected processor, and switching modes clears previous triggers, delay state and wind force. Stopping cancels pending pulses, disconnects processors and suspends audio; a stop during loading cannot be undone by a late load completion.
 
+The wind control applies a perceptual low-level lift so tilt is audible from around 10 degrees, then caps the Faust model's internal force/frequency control below its most piercing range. The interface still reports the full calibrated angle range up to 70 degrees; only the synthesis control is capped for comfort.
+
 All controls reject non-finite values and clamp to their declared ranges. Output passes through a compressor and soft-clipping stage followed by a master gain capped at 0.4. Default master setting is 45% of that range. Start with low headphone volume and adjust for the physical device.
 
 ## Verification scope
