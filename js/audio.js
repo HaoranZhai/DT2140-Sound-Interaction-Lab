@@ -104,22 +104,27 @@ export class LabAudio {
 
   setWind(force) {
     if (!this.ready || !this.running || this.mode !== 'wind') return;
-    this.nodes.wind.setParamValue(PATHS.wind.force, finiteClamp(force));
-    this.nodes.wind.setParamValue(PATHS.wind.volume, 0.85);
+    const f = finiteClamp(force);
+    // The supplied physical wind model is very quiet at low force because its
+    // noise amplitude is multiplied by force. Use a gentle perceptual lift so
+    // 10-50% gestures remain audible while preserving a true zero at rest.
+    const audibleForce = f === 0 ? 0 : 0.12 + 0.88 * Math.pow(f, 0.55);
+    this.nodes.wind.setParamValue(PATHS.wind.force, audibleForce);
+    this.nodes.wind.setParamValue(PATHS.wind.volume, 1);
   }
 
   trigger(type, intensity = 0.7) {
     if (!this.ready || !this.running || this.mode !== type || !PATHS[type]?.gate) return false;
     const node = this.nodes[type];
     const i = finiteClamp(intensity);
-    const gain = type === 'bell' ? 0.25 + 0.5 * i : type === 'thunder' ? 0.3 + 0.4 * i : 0.55;
+    const gain = type === 'bell' ? 0.8 + 0.2 * i : type === 'thunder' ? 0.3 + 0.4 * i : 0.55;
     node.setParamValue(PATHS[type].volume, gain);
     clearTimeout(this.timers.get(type));
     node.setParamValue(PATHS[type].gate, 1);
     this.timers.set(type, setTimeout(() => {
       node.setParamValue(PATHS[type].gate, 0);
       this.timers.delete(type);
-    }, type === 'torpedo' ? 140 : 100));
+    }, type === 'bell' ? 220 : type === 'torpedo' ? 140 : 100));
     return true;
   }
 

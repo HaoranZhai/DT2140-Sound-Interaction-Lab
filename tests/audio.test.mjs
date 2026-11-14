@@ -28,7 +28,7 @@ test('adapter starts only on request, bounds gain, switches and stops without re
   assert.equal(await started, true);
   assert.equal(audio.ready, true);
   assert.equal(audio.trigger('bell', 100), true);
-  assert.equal(audio.nodes.bell.getParamValue('/churchBell/gain'), 0.75);
+  assert.equal(audio.nodes.bell.getParamValue('/churchBell/gain'), 1);
   audio.setMode('wind');
   assert.equal(audio.nodes.bell.getParamValue('/churchBell/gate'), 0);
   assert.equal(audio.nodes.bell.connections.length, 0);
@@ -36,6 +36,8 @@ test('adapter starts only on request, bounds gain, switches and stops without re
   assert.equal(audio.timers.size, 0);
   audio.setWind(100);
   assert.equal(audio.nodes.wind.getParamValue('/wind/wind/force'), 1);
+  audio.setWind(25);
+  assert.ok(audio.nodes.wind.getParamValue('/wind/wind/force') > 0.5);
   audio.setVolume(Infinity);
   assert.equal(audio.master.gain.value, 0);
   audio.setVolume(100);
