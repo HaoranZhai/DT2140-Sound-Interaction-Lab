@@ -35,7 +35,7 @@ test('adapter starts only on request, bounds gain, switches and stops without re
   assert.equal(audio.nodes.wind.connections.length, 1);
   assert.equal(audio.timers.size, 0);
   audio.setWind(100);
-  assert.equal(audio.nodes.wind.getParamValue('/wind/wind/force'), 1);
+  assert.ok(audio.nodes.wind.getParamValue('/wind/wind/force') < 0.8);
   audio.setWind(25);
   assert.ok(audio.nodes.wind.getParamValue('/wind/wind/force') > 0.5);
   audio.setVolume(Infinity);

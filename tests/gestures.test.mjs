@@ -51,6 +51,14 @@ test('bell rejects slow isolated alternation and subthreshold small motion', () 
   for (let i = 1; i < 20; i++) assert.deepEqual(shakePeak(engine, i * 100, i % 2 ? 2 : -2), []);
 });
 
+test('bell can retrigger on a continuous shake after cooldown', () => {
+  const engine = new GestureEngine('bell');
+  assert.deepEqual(shakePeak(engine, 100, 10), []);
+  assert.equal(shakePeak(engine, 220, -10)[0].type, 'bell');
+  assert.deepEqual(shakePeak(engine, 400, 10), []); // cooldown still active
+  assert.equal(shakePeak(engine, 560, -10)[0].type, 'bell');
+});
+
 test('thunder needs large motion dwell and quiet rearm, with cooldown', () => {
   const engine = new GestureEngine('thunder');
   for (let t = 0; t < 300; t += 20) assert.deepEqual(motion(engine, t, 8).events, []);

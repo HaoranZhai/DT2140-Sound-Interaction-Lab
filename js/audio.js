@@ -108,7 +108,10 @@ export class LabAudio {
     // The supplied physical wind model is very quiet at low force because its
     // noise amplitude is multiplied by force. Use a gentle perceptual lift so
     // 10-50% gestures remain audible while preserving a true zero at rest.
-    const audibleForce = f === 0 ? 0 : 0.12 + 0.88 * Math.pow(f, 0.55);
+    // Cap the model's frequency control below its most piercing upper range.
+    // The UI still reaches 100%; the audible mapping tops out at a warmer
+    // force value while low angles remain lifted and clearly audible.
+    const audibleForce = f === 0 ? 0 : 0.12 + 0.60 * Math.pow(f, 0.65);
     this.nodes.wind.setParamValue(PATHS.wind.force, audibleForce);
     this.nodes.wind.setParamValue(PATHS.wind.volume, 1);
   }

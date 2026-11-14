@@ -8,11 +8,11 @@ export const THRESHOLDS = Object.freeze({
   staleMs: 500,
   gravityTimeConstantMs: 800,
   gravityWarmupMs: 750,
-  shakeOn: 5,
+  shakeOn: 6,
   shakeOff: 3,
-  shakeMinPeakIntervalMs: 50,
+  shakeMinPeakIntervalMs: 60,
   shakeWindowMs: 900,
-  shakeCooldownMs: 220,
+  shakeCooldownMs: 300,
   shakeRequiredPeaks: 2,
   thunderOn: 16,
   thunderOff: 7,
@@ -190,7 +190,10 @@ export class GestureEngine {
         timeMs - this.lastBell >= THRESHOLDS.shakeCooldownMs) {
       events.push({type: 'bell', intensity: clamp(magnitude / 22, 0.3, 1)});
       this.lastBell = timeMs;
-      this.shakePeaks = [this.shakePeaks.at(-1)];
+      // Start a fresh alternating pair so a continuous shake can create
+      // repeated bell strikes after the cooldown.
+      this.shakePeaks = [];
+      this.shakeArmed = true;
     }
   }
 

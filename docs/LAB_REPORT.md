@@ -57,7 +57,7 @@ The initial settings below are defined in [the gesture engine](../js/gestures.js
 
 | Mapping | Recognition and stability settings |
 | --- | --- |
-| Bells | Two alternating peaks of at least 5 m/s² in 900 ms; below 3 m/s² rearms each peak; minimum peak spacing 50 ms; cooldown 220 ms. |
+| Bells | Two alternating peaks of at least 6 m/s² in 900 ms; below 3 m/s² rearms each peak; minimum peak spacing 60 ms; cooldown 300 ms. |
 | Wind | Calibrated absolute roll magnitude; audible from about 10° and full force at 70°; 120 ms smoothing time constant. |
 | Thunder | Acceleration magnitude at least 16 m/s² for 40 ms; below 7 m/s² for 120 ms rearms the detector; cooldown 1,400 ms. |
 | Torpedo | Top edge within 20° of vertical for 350 ms; leaving to at least 35° rearms; cooldown 1,200 ms. |
