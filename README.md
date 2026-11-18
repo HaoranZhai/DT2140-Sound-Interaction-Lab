@@ -1,48 +1,112 @@
-# DT2140 Lab 2: Sound and Gestures in Interaction
+# DT-2140 Sound and Interaction Lab
 
-Participant: **Haoran Zhai**  
-Partner: **None; working individually**
+Try the example first to see if webaudio and motion sensors work on your phone.
 
-This repository keeps the KTH starter frontend: `index.html`, `sound2.html`,
-`sound3.html`, `sketch.js`, `helpers.js`, `styles.css`, and `dsp.js`. A fourth
-page, `sound4.html`, uses the same template for the optional point-up mapping.
+[example app](https://mauriziobrt.github.io/DT2140-Sound-Interaction-Lab/)
 
-## Connections
+# Lab Instructions
 
-1. Shake the phone → English church bells (`bells.wasm`). The starter p5.js
-   `deviceShaken()` callback opens the bell gate, matching the familiar action of a handbell.
-2. Make a large movement → Thunder (`tuono.wasm`). The p5 movement threshold is
-   used to ignore small movements and trigger a short thunder rumble for a strong gesture.
-3. Tilt/roll the phone → Brass (`brass.wasm`). The roll angle is continuously mapped
-   to `/brass/blower/pressure` in the range 0–1, so more tilt produces more air pressure.
-4. Point the phone straight up → Sci-fi torpedo (`torpedo.wasm`). Holding the signed
-   upward pitch above 85° for 350 ms fires once; pointing down is ignored.
+In this lab, you will create sonic interaction by mapping phone movements (shake, tilt, rotation, ...) to parameters of a sound model.
 
-The first three connections satisfy the lab requirement of at least three approved
-connections; the fourth is optional. No external gesture-recognition library is used.
+## Objectives / Learning Goals
 
-## Run
+By the end of this lab, you will be able to:
 
-Serve the repository over HTTP/HTTPS so the browser can load WebAssembly:
+- Create an **interactive web application** that connects a **modality** (e.g., phone sensors such as accelerometer, gyroscope, or touch) to **sound control** using **Faust** and **WebAssembly (WASM)**.  
+- Build and test a Faust DSP module running in the browser.  
+- Integrate sensor data or other input modalities to control sound parameters in real time.  
+- Use **Git**, **GitHub**, and **GitHub Pages** to manage and publish your own version of the project.  
 
-```sh
-npx serve .
+---
+
+## Setup
+
+0. **Install [VScode](https://code.visualstudio.com/download) or use another IDE you're comfortable with (we use VSCode)**
+1. **Login to your GitHub account.**  
+2. **Fork this lab repository** to your own GitHub account.  
+   - Do **not** push to the teacher’s repository.  
+3. **Clone your forked repository** to your local computer:
+   ```bash
+   git clone <URL-of-your-fork>
+   ```
+4. **Generate the WebAssembly (WASM)** file using [Faust IDE](https://faustide.grame.fr). You can see how to do it at [this link](https://docs.google.com/presentation/d/1lj7QYG4uRv8_6EkK9RaNHyYJWr_GaDGgUtBmQcBSjCM/edit?usp=sharing)
+5. **Enable GitHub Pages** on your forked repository to host your project. You can see how to do it at [this link](https://docs.google.com/presentation/d/16rdCUduoiX9MKvGQ_ZED4n1LxoCYvBTOSD802oZfJe8/edit?usp=sharing)
+
+---
+
+## Configuration
+
+For each interaction:
+
+1. Open `interaction-n.js` and locate the following:
+
+   ```javascript
+   const dspName = "tuono";
+   ```
+2. Replace `"tuono"` with the name of your generated WASM file (without the `.wasm` extension).
+3. Locate the following string and replace tuono with the name of your WASM file:
+    
+    ```javascript
+        tuono.createDSP(audioContext, 1024)
+        .then(node => {...
+    ```
+4. Edit the parameter address in playAudio(), as written in the comment. The address depends on the sound model chosen (for example, "/englishBell/gate" for the English bell). If skipped, the page is silent and shows no error.
+
+---
+
+## Running the Project
+
+You have two options to run the project locally:
+
+* **Option 1 (Recommended):** Use *Live Server* in VS Code.
+* **Option 2:** Create a simple Python server from the terminal:
+
+  ```bash
+  python3 -m http.server
+  ```
+
+---
+
+## Troubleshooting
+
+- No sound on iPhone - If there is no sound on an iPhone, switch the phone from silent to ring mode. The silent switch mutes web audio.
+- Stale GitHub Pages - GitHub Pages takes about a minute to update, and phones often show an old cached version. Try reloading, opening the page in a private tab or, if possible, deleting the cache for that page.
+
+
+---
+
+## Version Control Workflow
+
+### First Time Setup
+
+If you already forked the repo, you don’t need to clone again.
+To keep your local version updated with your fork, use:
+
+```bash
+git pull
 ```
 
-Open `index.html`, `sound2.html`, `sound3.html`, or `sound4.html`. Press **Turn On DSP** first.
-On iOS, press **Request Permission** and allow motion access. The starter UI also
-provides desktop mouse rehearsal through `mousePressed()`.
+### GitHub Authentication
 
-Use headphones and start at a low volume. Physical-phone verification and
-laboratory-assistant approval still need to be demonstrated during the lab.
+1. Go to **Settings → Developer settings → Personal access tokens → Tokens (classic)**.
+2. Create a **new access token** with permissions for your repository.
+3. When prompted to log in via terminal, use your **token instead of your password**.
 
-## Source and submission
+### Committing and Pushing Changes
 
-- GitHub: https://github.com/HaoranZhai/DT2140-Sound-Interaction-Lab
-- GitHub Pages: https://haoranzhai.github.io/DT2140-Sound-Interaction-Lab/
-- Canvas text: `docs/CANVAS_SUBMISSION.txt`
-- Design report: `docs/LAB_REPORT.md`
+```bash
+git add .
+git commit -m "your commit message"
+git push -u origin main
+```
 
-The repository is based on the course starter by Maurizio Berta and Laura McHugh.
-Sound models are Faust examples associated with *Designing Sound* and are used
-through the provided `dsp.js` Web Audio bridge.
+---
+
+## Submission Instructions
+
+* You must **fork the repository** and work on your own copy.
+* **Do not push** to the teacher’s repository.
+* Ensure your project is **published on GitHub Pages** from your fork.
+* Submit the **link to your GitHub Pages site** and your **repository URL** as your lab submission on **Canvas**.
+
+---
