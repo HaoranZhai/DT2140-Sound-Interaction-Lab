@@ -9,7 +9,7 @@ Live demonstration: https://haoranzhai.github.io/DT2140-Sound-Interaction-Lab/ (
 Implemented connections (using the supplied starter pages and one additional page):
 
 1. Phone is shaken -> Bells.
-   The interaction layer detects two alternating acceleration peaks in a short window and opens the English church-bell gate; the starter `deviceShaken()` callback remains only as a fallback. The action resembles shaking a handbell, giving a clear physical metaphor for rhythmic interaction.
+   The starter p5.js `deviceShaken()` callback opens the English church-bell gate. The action resembles shaking a handbell, giving a clear physical metaphor for rhythmic interaction.
 
 2. Phone detects very large movements, but not small ones -> Thunder.
    The starter p5 movement threshold is used to ignore small movements; `deviceMoved()` triggers the thunder rumble for a strong gesture. A forceful gesture fits the expressive intensity of a virtual storm.
