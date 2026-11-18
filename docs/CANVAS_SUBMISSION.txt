@@ -18,6 +18,6 @@ Implemented connections (using the supplied starter pages and one additional pag
    The phone's roll angle is continuously mapped to the Faust brass blower pressure in the range 0–1. More tilt therefore produces more air pressure and a stronger brass sound.
 
 4. Phone is used to point straight up -> Sci-Fi photon torpedo.
-   The signed pitch angle must remain above 65 degrees for 350 ms before one torpedo is triggered. Pointing down has the opposite sign and is ignored; lowering the phone rearms the gesture.
+   The signed pitch angle must remain above 85 degrees for 350 ms before one torpedo is triggered. Pointing down has the opposite sign and is ignored; lowering below 70 degrees rearms the gesture.
 
 All four sounds use Faust synthesis models compiled to WebAssembly and the course `dsp.js` bridge. Physical-phone verification and laboratory-assistant approval have not yet been recorded; desktop mouse rehearsal is only a debugging aid.

@@ -40,7 +40,7 @@ function rotationChange(rotx, roty, rotz) {
     // Use the signed pitch direction: positive pitch is the phone's top edge
     // moving toward the ceiling. Using absolute values would also fire when
     // the phone points down.
-    const pointingUp = rotx >= 65;
+    const pointingUp = rotx >= 85;
 
     if (pointingUp && torpedoArmed) {
         if (!pointingUpSince) {
@@ -50,7 +50,7 @@ function rotationChange(rotx, roty, rotz) {
             playAudio();
             torpedoArmed = false;
         }
-    } else if (rotx < 45) {
+    } else if (rotx < 70) {
         pointingUpSince = 0;
         torpedoArmed = true;
     }

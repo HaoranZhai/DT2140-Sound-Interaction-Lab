@@ -16,7 +16,7 @@ page, `sound4.html`, uses the same template for the optional point-up mapping.
 3. Tilt/roll the phone → Brass (`brass.wasm`). The roll angle is continuously mapped
    to `/brass/blower/pressure` in the range 0–1, so more tilt produces more air pressure.
 4. Point the phone straight up → Sci-fi torpedo (`torpedo.wasm`). Holding the signed
-   upward pitch above 65° for 350 ms fires once; pointing down is ignored.
+   upward pitch above 85° for 350 ms fires once; pointing down is ignored.
 
 The first three connections satisfy the lab requirement of at least three approved
 connections; the fourth is optional. No external gesture-recognition library is used.
