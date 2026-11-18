@@ -6,7 +6,7 @@ Partner: None; working individually.
 Repository: https://github.com/HaoranZhai/DT2140-Sound-Interaction-Lab
 Live demonstration: https://haoranzhai.github.io/DT2140-Sound-Interaction-Lab/ (GitHub Pages verified HTTP 200 on 2026-11-14).
 
-Implemented connections (using the three supplied starter pages):
+Implemented connections (using the supplied starter pages and one additional page):
 
 1. Phone is shaken -> Bells.
    The starter p5 sketch detects the shake and calls `deviceShaken()`, which opens the English church-bell gate. The action resembles shaking a handbell, giving a clear physical metaphor for rhythmic interaction.
@@ -17,4 +17,7 @@ Implemented connections (using the three supplied starter pages):
 3. Phone is placed flat in the hand and tilted from side to side -> Brass.
    The phone's roll angle is continuously mapped to the Faust brass blower pressure in the range 0–1. More tilt therefore produces more air pressure and a stronger brass sound.
 
-All three sounds use the supplied Faust synthesis models compiled to WebAssembly and the course `dsp.js` bridge. Physical-phone verification and laboratory-assistant approval have not yet been recorded; desktop mouse rehearsal is only a debugging aid.
+4. Phone is used to point straight up -> Sci-Fi photon torpedo.
+   The larger of the two tilt axes must remain above 65 degrees for 350 ms before one torpedo is triggered. Lowering the phone rearms the gesture so it can be demonstrated repeatedly.
+
+All four sounds use Faust synthesis models compiled to WebAssembly and the course `dsp.js` bridge. Physical-phone verification and laboratory-assistant approval have not yet been recorded; desktop mouse rehearsal is only a debugging aid.

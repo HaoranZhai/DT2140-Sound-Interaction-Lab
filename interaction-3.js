@@ -55,13 +55,37 @@ function accelerationChange(accx, accy, accz) {
     // Acceleration is intentionally not used for this mapping.
 }
 
+let neutralRoll = null;
+let neutralSamples = [];
+let smoothedPressure = 0;
+
 function rotationChange(rotx, roty, rotz) {
     turntimer = millis();
     statusLabels[1].style("color", "pink");
-    // Map the phone's roll angle to brass pressure.  The pressure is clamped
-    // because the Faust parameter is defined on [0, 1].
-    const pressure = Math.max(0, Math.min(1, Math.abs(rotz) / 90));
-    playAudio(pressure);
+    // p5's rotationY is the side-to-side roll. rotationZ is yaw, so using
+    // rotationZ here would make the brass sound stay saturated while turning.
+    if (!Number.isFinite(roty)) {
+        return;
+    }
+    if (neutralRoll === null) {
+        neutralSamples.push(roty);
+        if (neutralSamples.length < 20) {
+            playAudio(0);
+            return;
+        }
+        neutralRoll = neutralSamples.reduce((sum, value) => sum + value, 0) /
+            neutralSamples.length;
+    }
+
+    // Use the shortest angular distance so the -180/180 discontinuity is safe.
+    let delta = roty - neutralRoll;
+    while (delta > 180) delta -= 360;
+    while (delta < -180) delta += 360;
+
+    // Keep the brass model below its piercing maximum, then smooth the control.
+    const targetPressure = Math.min(0.65, Math.abs(delta) / 55 * 0.65);
+    smoothedPressure += 0.12 * (targetPressure - smoothedPressure);
+    playAudio(smoothedPressure);
 }
 
 function mousePressed() {

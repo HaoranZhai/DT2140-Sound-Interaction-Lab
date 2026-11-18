@@ -13,19 +13,20 @@ code only connects those callbacks to the supplied Faust/WebAssembly models.
 | 1 | Shake the phone | English church bells | Shaking resembles operating a handbell, so a discrete shake should create a discrete bell strike. |
 | 2 | Detect a very large movement | Thunder | A forceful movement fits the sudden energy of a storm; the movement threshold rejects small hand motion. |
 | 3 | Roll/tilt the phone side to side | Brass instrument | Tilt is a continuous control, analogous to applying more or less air pressure to a wind instrument. |
+| 4 | Phone points straight up and holds the pose | Sci-fi photon torpedo | A stable upward pose represents aiming a launcher; one trigger fires, and lowering the phone rearms it. |
 
 The lab requires at least three approved connections; these are the three
-implemented pages. A fourth mapping is optional in the assignment and is not
-needed for this submission.
+implemented pages; the fourth mapping is optional in the assignment.
 
 ## Code locations
 
 - `index.html` + `interaction-1.js`: shake → `/englishBell/gate`;
 - `sound2.html` + `interaction-2.js`: movement → `/thunder/rumble`;
 - `sound3.html` + `interaction-3.js`: roll angle → `/brass/blower/pressure`;
+- `sound4.html` + `interaction-4.js`: upward pose → `/torpedo/trigger`;
 - `sketch.js`, `helpers.js`, `styles.css`, and `dsp.js`: supplied starter frontend/runtime.
 
-The continuous pressure mapping is `clamp(abs(rotationZ) / 90, 0, 1)`. The
+The continuous pressure mapping uses a calibrated and smoothed roll delta. The
 parameter range is taken from the Faust metadata and is clamped before sending
 values to the DSP node. Trigger controls are pulsed briefly and audio starts only
 after the starter's user-gesture button.

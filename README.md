@@ -4,9 +4,8 @@ Participant: **Haoran Zhai**
 Partner: **None; working individually**
 
 This repository keeps the KTH starter frontend: `index.html`, `sound2.html`,
-`sound3.html`, `sketch.js`, `helpers.js`, `styles.css`, and `dsp.js`. The three
-student implementations are in `interaction-1.js`, `interaction-2.js`, and
-`interaction-3.js`, loaded by those starter pages.
+`sound3.html`, `sketch.js`, `helpers.js`, `styles.css`, and `dsp.js`. A fourth
+page, `sound4.html`, uses the same template for the optional point-up mapping.
 
 ## Connections
 
@@ -16,10 +15,11 @@ student implementations are in `interaction-1.js`, `interaction-2.js`, and
    used to ignore small movements and trigger a short thunder rumble for a strong gesture.
 3. Tilt/roll the phone → Brass (`brass.wasm`). The roll angle is continuously mapped
    to `/brass/blower/pressure` in the range 0–1, so more tilt produces more air pressure.
+4. Point the phone straight up → Sci-fi torpedo (`torpedo.wasm`). Holding the upward
+   pose for 350 ms fires once; lowering the phone rearms the trigger.
 
 The first three connections satisfy the lab requirement of at least three approved
-connections. The Faust source files in `faust-dsp/` and supplied starter WASM files
-are retained; no external gesture-recognition library is used.
+connections; the fourth is optional. No external gesture-recognition library is used.
 
 ## Run
 
@@ -29,7 +29,7 @@ Serve the repository over HTTP/HTTPS so the browser can load WebAssembly:
 npx serve .
 ```
 
-Open `index.html`, `sound2.html`, or `sound3.html`. Press **Turn On DSP** first.
+Open `index.html`, `sound2.html`, `sound3.html`, or `sound4.html`. Press **Turn On DSP** first.
 On iOS, press **Request Permission** and allow motion access. The starter UI also
 provides desktop mouse rehearsal through `mousePressed()`.
 

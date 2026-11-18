@@ -9,8 +9,9 @@ connects it to the browser audio destination after the user presses **Turn On DS
 | `index.html` | `bells.wasm` | `/englishBell/gate` | `deviceShaken()` |
 | `sound2.html` | `tuono.wasm` | `/thunder/rumble` | `deviceMoved()` |
 | `sound3.html` | `brass.wasm` | `/brass/blower/pressure` | `rotationChange()` |
+| `sound4.html` | `torpedo.wasm` | `/torpedo/trigger` | stable upward pose in `rotationChange()` |
 
-The three `interaction-*.js` files are the only student interaction layer. The
+The four `interaction-*.js` files are the student interaction layer. The
 gesture recognition itself is provided by the p5.js starter sketch: it supplies
 acceleration, rotation, shake and movement callbacks. We only map those callbacks
 to Faust parameters and clamp the continuous brass pressure to `[0, 1]`.
