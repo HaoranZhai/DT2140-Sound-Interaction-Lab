@@ -12,7 +12,7 @@ let dspNodeParams = null;
 let jsonParams = null;
 
 // Change here to ("tuono") depending on your wasm file name
-const dspName = "bells";
+const dspName = "tuono";
 const instance = new FaustWasm2ScriptProcessor(dspName);
 
 // output to window or npm package module
@@ -25,7 +25,7 @@ if (typeof module === "undefined") {
 }
 
 // The name should be the same as the WASM file, so change tuono with brass if you use brass.wasm
-bells.createDSP(audioContext, 1024)
+window[dspName].createDSP(audioContext, 1024)
     .then(node => {
         dspNode = node;
         dspNode.connect(audioContext.destination);
@@ -52,20 +52,21 @@ bells.createDSP(audioContext, 1024)
 //==========================================================================================
 
 function accelerationChange(accx, accy, accz) {
-    // playAudio()
+    // Large acceleration is handled by the starter sketch's deviceMoved callback.
 }
 
 function rotationChange(rotx, roty, rotz) {
 }
 
 function mousePressed() {
-    // playAudio()
+    playAudio();
     // Use this for debugging from the desktop!
 }
 
 function deviceMoved() {
     movetimer = millis();
     statusLabels[2].style("color", "pink");
+    playAudio();
 }
 
 function deviceTurned() {
@@ -102,8 +103,8 @@ function playAudio() {
     if (audioContext.state === 'suspended') {
         return;
     }
-    dspNode.setParamValue("/englishBell/gate", 1)
-    setTimeout(() => { dspNode.setParamValue("/englishBell/gate", 0) }, 100);
+    dspNode.setParamValue("/thunder/rumble", 1);
+    setTimeout(() => { dspNode.setParamValue("/thunder/rumble", 0); }, 140);
 }
 
 //==========================================================================================

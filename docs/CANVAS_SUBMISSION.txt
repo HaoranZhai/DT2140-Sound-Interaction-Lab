@@ -6,18 +6,15 @@ Partner: None; working individually.
 Repository: https://github.com/HaoranZhai/DT2140-Sound-Interaction-Lab
 Live demonstration: https://haoranzhai.github.io/DT2140-Sound-Interaction-Lab/ (GitHub Pages verified HTTP 200 on 2026-11-14).
 
-Implemented connections:
+Implemented connections (using the three supplied starter pages):
 
 1. Phone is shaken -> Bells.
-   Two alternating acceleration peaks trigger a bell strike, and a fresh detection pair allows repeated strikes during a continuous shake after a short cooldown. The action resembles shaking a handbell, giving a clear physical metaphor for rhythmic interaction.
+   The starter p5 sketch detects the shake and calls `deviceShaken()`, which opens the English church-bell gate. The action resembles shaking a handbell, giving a clear physical metaphor for rhythmic interaction.
 
-2. Phone is placed flat in the hand and tilted from side to side -> Wind.
-   Absolute calibrated tilt begins producing clearly audible wind around 10° and reaches full control near 70°; returning toward center reduces it. The upper frequency control is limited to keep 80°-90° comfortable. The continuous mapping lets a user control the intensity of a virtual weather scene.
+2. Phone detects very large movements, but not small ones -> Thunder.
+   The starter p5 movement threshold is used to ignore small movements; `deviceMoved()` triggers the thunder rumble for a strong gesture. A forceful gesture fits the expressive intensity of a virtual storm.
 
-3. Phone detects very large movements, but not small ones -> Thunder.
-   A strong acceleration event triggers thunder, while small movements remain below the threshold. A forceful gesture fits the expressive intensity of a virtual storm. Here, movement size is operationalized as acceleration rather than distance travelled.
+3. Phone is placed flat in the hand and tilted from side to side -> Brass.
+   The phone's roll angle is continuously mapped to the Faust brass blower pressure in the range 0–1. More tilt therefore produces more air pressure and a stronger brass sound.
 
-4. Phone is used to point straight up -> Sci-Fi photon torpedo.
-   Holding the phone's top edge upward briefly triggers one torpedo; moving away rearms it. This represents aiming a virtual launcher and provides feedback for the recognized pose.
-
-All four sounds use the supplied Faust synthesis models compiled to WebAssembly. The repository contains source code, compiled assets, automated checks, and a fuller design report. The current software suite has 25/25 passing tests, including repeatable shake detection and audio controls. Physical-phone verification and laboratory-assistant approval have not yet been recorded; simulated controls are labelled as synthetic input.
+All three sounds use the supplied Faust synthesis models compiled to WebAssembly and the course `dsp.js` bridge. Physical-phone verification and laboratory-assistant approval have not yet been recorded; desktop mouse rehearsal is only a debugging aid.

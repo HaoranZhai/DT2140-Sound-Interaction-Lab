@@ -52,14 +52,18 @@ brass.createDSP(audioContext, 1024)
 //==========================================================================================
 
 function accelerationChange(accx, accy, accz) {
-    // playAudio()
+    // Acceleration is intentionally not used for this mapping.
 }
 
 function rotationChange(rotx, roty, rotz) {
+    // Map the phone's roll angle to brass pressure.  The pressure is clamped
+    // because the Faust parameter is defined on [0, 1].
+    const pressure = Math.max(0, Math.min(1, Math.abs(rotz) / 90));
+    playAudio(pressure);
 }
 
 function mousePressed() {
-    playAudio(mouseX/windowWidth)
+    playAudio(mouseX / windowWidth);
     // Use this for debugging from the desktop!
 }
 
@@ -102,8 +106,7 @@ function playAudio(pressure) {
     if (audioContext.state === 'suspended') {
         return;
     }
-    console.log(pressure)
-    dspNode.setParamValue("/brass/blower/pressure", pressure)
+    dspNode.setParamValue("/brass/blower/pressure", Math.max(0, Math.min(1, pressure)));
 }
 
 //==========================================================================================

@@ -445,16 +445,12 @@ class FaustWasm2ScriptProcessor {
 
         try {
             const dspFile = await fetch(this.name + ".wasm");
-            if (!dspFile.ok) throw new Error(`HTTP ${dspFile.status} loading ${this.name}.wasm`);
             const dspBuffer = await dspFile.arrayBuffer();
             const dspModule = await WebAssembly.instantiate(dspBuffer, importObject);
-            const node = this.getNode(dspModule.instance, audioCtx, bufferSize);
-            if (!node) throw new Error(`Audio processor creation failed for ${this.name}`);
-            return node;
+            return this.getNode(dspModule.instance, audioCtx, bufferSize);
         } catch (e) {
             this.error(e);
             this.error("Faust " + this.name + " cannot be loaded or compiled");
-            throw e;
         }
     }
 

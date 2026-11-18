@@ -1,87 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101b25">
-  <meta name="description" content="Four experiments connecting physical gestures to Faust sound synthesis. DT2140 Lab 2, Haoran Zhai.">
-  <title>Motion / Sound — DT2140 Lab 2</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="dsp.js" defer></script>
-  <script type="module" src="js/app.js"></script>
-</head>
-<body>
-  <a class="skip-link" href="#lab">Skip to the sound laboratory</a>
-  <div class="page-shell">
-    <header class="site-header">
-      <a class="wordmark" href="index.html" aria-label="Motion / Sound home"><span class="brand-symbol" aria-hidden="true"><i></i><i></i><i></i><i></i></span>MOTION <span class="slash">/</span> SOUND</a>
-      <div class="course-mark"><span>KTH · DT2140</span><span>LAB 02 <b aria-hidden="true">↗</b></span></div>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, max-age=0, must-revalidate"
+    />
+    <title>p5.js faust example</title>
+    <link rel="stylesheet" href="styles.css" /> 
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
+    <script src="dsp.js"></script>
+  </head>
 
-    <main id="lab">
-      <section class="hero" aria-labelledby="page-title">
-        <div>
-          <p class="eyebrow"><span class="tiny-cross" aria-hidden="true">+</span> SOUND &amp; GESTURES IN INTERACTION</p>
-          <h1 id="page-title">Make movement<br><em>audible.</em></h1>
-          <p class="hero-copy">A small laboratory for the sounds of motion.<br>Choose a gesture. Move your phone. Listen to the connection.</p>
-        </div>
-        <div class="hero-aside"><span class="edition-number">04<span>↗</span></span><p>GESTURES<br>SONIC CONNECTIONS</p><span class="participant">Haoran Zhai · Autumn 2026</span></div>
-      </section>
+  <body class="grid-container fullbody">
+    <nav class="primary-nav">
+      <li><a href="index.html">Interaction 1</a></li>
+      <li><a href="sound2.html">Interaction 2</a></li>
+      <li><a href="sound3.html">Interaction 3</a></li>
+    </nav>
 
-      <section class="setup-bar" aria-label="Audio and sensor setup">
-        <div class="setup-actions"><button id="audio-toggle" class="button button-primary" type="button"><span class="play-icon" aria-hidden="true">▶</span> Start audio</button><button id="sensor-enable" class="button button-secondary" type="button">Enable sensors <span aria-hidden="true">↗</span></button></div>
-        <div class="status-list">
-          <span class="status-item"><i id="audio-led" class="led" aria-hidden="true"></i><span><small>AUDIO</small><span id="audio-status" role="status">Not started</span></span></span>
-          <span class="status-item"><i id="motion-led" class="led" aria-hidden="true"></i><span><small>MOTION</small><span id="motion-status" role="status">Waiting</span></span></span>
-          <span class="status-item"><i id="orientation-led" class="led" aria-hidden="true"></i><span><small>ORIENTATION</small><span id="orientation-status" role="status">Waiting</span></span></span>
-        </div>
-      </section>
-      <p id="notice" class="notice" role="status">Start audio, then enable sensors on your phone. Headphones and a low volume are recommended.</p>
+    <div id="info">
+      <p>
+        <b>Interaction 1 — Shake the phone to ring an English church bell.</b>
+        <br />
+        <br />
+        A short alternating shake is detected by p5.js. The gesture is mapped to
+        the Faust English church-bell gate, creating a discrete bell strike.
+        The mapping is motivated by the physical action of shaking a handbell.
+      </p>
+    </div>
 
-      <div class="section-label"><h2>Choose a connection</h2><span>01 — 04</span></div>
-      <nav class="mode-grid" aria-label="Gesture and sound connections">
-        <button class="mode" data-mode="bell" type="button" aria-pressed="true"><span class="mode-top"><span>01</span><span class="mode-symbol" aria-hidden="true">↔</span></span><strong>Shake</strong><span class="mode-sound">Bells <span aria-hidden="true">↗</span></span></button>
-        <button class="mode" data-mode="wind" type="button" aria-pressed="false"><span class="mode-top"><span>02</span><span class="mode-symbol" aria-hidden="true">∿</span></span><strong>Tilt side to side</strong><span class="mode-sound">Wind <span aria-hidden="true">↗</span></span></button>
-        <button class="mode" data-mode="thunder" type="button" aria-pressed="false"><span class="mode-top"><span>03</span><span class="mode-symbol" aria-hidden="true">ϟ</span></span><strong>Large movement</strong><span class="mode-sound">Thunder <span aria-hidden="true">↗</span></span></button>
-        <button class="mode" data-mode="torpedo" type="button" aria-pressed="false"><span class="mode-top"><span>04</span><span class="mode-symbol" aria-hidden="true">↑</span></span><strong>Point straight up</strong><span class="mode-sound">Sci-fi torpedo <span aria-hidden="true">↗</span></span></button>
-      </nav>
-
-      <div class="workspace-grid">
-        <section class="interaction-panel panel" aria-labelledby="gesture-title">
-          <div class="panel-heading"><span id="mapping-label" class="eyebrow">01 / SHAKE → BELLS</span><span id="source-tag" class="tag">LIVE SENSORS</span></div>
-          <div class="gesture-stage">
-            <div id="instrument" class="instrument" data-mode="bell" aria-hidden="true">
-              <div class="orbit orbit-outer"></div><div class="orbit orbit-inner"></div>
-              <span class="axis axis-top">Y</span><span class="axis axis-right">X</span>
-              <div class="phone"><div class="phone-camera"></div><div class="phone-screen"><span class="screen-dot"></span><div class="sound-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="phone-caption">M / S</span></div><div class="phone-home"></div></div>
-              <span class="motion-arrow arrow-left">←</span><span class="motion-arrow arrow-right">→</span>
-              <span class="instrument-caption">PHYSICAL INPUT / SONIC OUTPUT</span>
-            </div>
-            <div class="gesture-copy"><span class="small-label">THE GESTURE</span><h2 id="gesture-title">Give it a shake.</h2><p id="gesture-instruction">Hold your phone securely and shake it back and forth. A short sequence of alternating movements rings the bell.</p><p id="gesture-rest" class="gesture-hint">Pause between gestures. A single tap or a small movement should stay quiet.</p></div>
-          </div>
-          <div class="event-strip"><span><i class="activity-dot" aria-hidden="true"></i><span id="event-state">Ready when you are</span></span><span><b id="event-count">0</b><small> TRIGGERS</small></span></div>
-        </section>
-
-        <aside class="diagnostics-panel panel" aria-label="Live signal and sound controls">
-          <div class="panel-heading"><span class="eyebrow">LIVE SIGNAL</span><span class="live-mark" aria-hidden="true">⌁</span></div>
-          <div class="signal-heading"><span id="signal-kind" class="small-label">LINEAR ACCELERATION</span><div class="signal-reading"><span id="signal-value">0.0</span><span id="signal-unit">m/s²</span></div></div>
-          <div class="signal-meter" role="meter" aria-label="Gesture signal strength" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="meter-fill"></div></div>
-          <p id="signal-description" class="signal-description">Waiting for sensor data.</p>
-          <dl class="technical-details"><div><dt>Input</dt><dd id="input-source">Phone sensors</dd></div><div><dt>Sound model</dt><dd id="model-name">Faust bells</dd></div><div><dt>Mapping</dt><dd id="mapping-type">Discrete trigger</dd></div></dl>
-          <div class="volume-control"><label for="volume">Output volume <output id="volume-value" for="volume">25%</output></label><input id="volume" type="range" min="0" max="100" step="1" value="25" aria-label="Output volume"></div>
-          <div class="calibration-control"><button id="calibrate" type="button" class="button button-quiet">Calibrate neutral tilt <span aria-hidden="true">⊕</span></button><p id="calibrate-note">For wind: hold the phone flat, then calibrate.</p></div>
-        </aside>
-      </div>
-
-      <section class="rationale-panel panel" aria-labelledby="scenario-title"><span class="rationale-index" aria-hidden="true">WHY<br>THIS<br>SOUND?</span><div><span class="eyebrow">DESIGN RATIONALE</span><h2 id="scenario-title">A handbell you can feel.</h2><p id="scenario-body">Shaking suggests the familiar action of a handbell. Alternating motion creates discrete bell strikes, linking the effort of a physical gesture to an audible response.</p></div><span class="rationale-glyph" aria-hidden="true">↔</span></section>
-
-      <div class="bottom-grid">
-        <details class="rehearsal-panel panel"><summary><span><span class="eyebrow">NO PHONE AT HAND?</span><strong>Desktop rehearsal</strong></span><span class="summary-plus" aria-hidden="true">+</span></summary><div class="rehearsal-content"><p>Explore the selected connection with synthetic sensor input. Rehearsal does not verify your phone’s sensors.</p><button id="demo-run" type="button" class="button button-secondary">Rehearse selected gesture <span aria-hidden="true">↗</span></button><label class="demo-label" for="demo-tilt">Simulated side tilt <output id="demo-tilt-value" for="demo-tilt">0°</output></label><input id="demo-tilt" type="range" min="-60" max="60" step="1" value="0"><div class="range-captions"><span>−60°</span><span>NEUTRAL</span><span>+60°</span></div></div></details>
-        <section class="event-log panel" aria-labelledby="event-log-title"><div class="panel-heading"><h2 id="event-log-title" class="eyebrow">RECENT ACTIVITY</h2><span class="log-marker" aria-hidden="true">●</span></div><ol id="events" class="events" aria-live="polite" aria-relevant="additions"><li class="empty-event">Your gesture events will appear here.</li></ol></section>
-      </div>
-    </main>
-    <footer class="site-footer"><div><strong>MOTION / SOUND</strong><span>Haoran Zhai · DT2140 Lab 2 · 2026</span></div><nav aria-label="Project resources"><a href="docs/DEMO_GUIDE_ZH.md">中文操作指南 <span aria-hidden="true">↗</span></a><a href="docs/LAB_REPORT.md">Lab report <span aria-hidden="true">↗</span></a><a href="https://github.com/HaoranZhai/DT2140-Sound-Interaction-Lab">Source code <span aria-hidden="true">↗</span></a></nav></footer>
-    <p class="credit">Built on the KTH sound interaction starter by Maurizio Berta and Laura McHugh. Sounds synthesized with Faust.</p>
-  </div>
-</body>
+    <footer>
+      <p>
+        Developed by Maurizio Berta and Laura McHugh
+        <br />
+        for
+        <a href="https://github.com/mauriziobrt/DT2140-Sound-Interaction-Lab"
+          >DT2140 Multimodal Interfaces Sound Interaction Lab</a
+        >
+        <br />
+        KTH Royal Institute of Technology, 2025
+      </p>
+    </footer>
+  </body>
+  <script src="helpers.js"></script>
+  <script src="interaction-1.js"></script>
+  <script src="sketch.js"></script>
 </html>

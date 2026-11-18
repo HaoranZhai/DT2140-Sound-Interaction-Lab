@@ -1,92 +1,48 @@
 # DT2140 Lab 2: Sound and Gestures in Interaction
 
-**Participant:** Haoran Zhai  
-**Partner:** None; working individually.
+Participant: **Haoran Zhai**  
+Partner: **None; working individually**
 
-A smartphone instrument with four gesture-to-sound connections. It uses real device sensors and four course-provided Faust models compiled to WebAssembly. The sounds are synthesized in the browser.
+This repository keeps the KTH starter frontend: `index.html`, `sound2.html`,
+`sound3.html`, `sketch.js`, `helpers.js`, `styles.css`, and `dsp.js`. The three
+student implementations are in `interaction-1.js`, `interaction-2.js`, and
+`interaction-3.js`, loaded by those starter pages.
 
-- [Own GitHub repository](https://github.com/HaoranZhai/DT2140-Sound-Interaction-Lab) - fork created.
-- [GitHub Pages demonstration](https://haoranzhai.github.io/DT2140-Sound-Interaction-Lab/) - verified HTTP 200 on 2026-11-14.
-- [English lab report](docs/LAB_REPORT.md) · [中文演示指南](docs/DEMO_GUIDE_ZH.md) · [Canvas submission text](docs/CANVAS_SUBMISSION.txt)
+## Connections
 
-## Use on a phone
+1. Shake the phone → English church bells (`bells.wasm`). The starter sketch's
+   shake callback opens the Faust bell gate, matching the familiar action of a handbell.
+2. Make a large movement → Thunder (`tuono.wasm`). The p5 movement threshold is
+   used to ignore small movements and trigger a short thunder rumble for a strong gesture.
+3. Tilt/roll the phone → Brass (`brass.wasm`). The roll angle is continuously mapped
+   to `/brass/blower/pressure` in the range 0–1, so more tilt produces more air pressure.
 
-Open the HTTPS demonstration link after publication. No installation, runtime compiler, account, or external CDN is needed; the app serves its scripts and compiled audio assets from the same site.
+The first three connections satisfy the lab requirement of at least three approved
+connections. The Faust source files in `faust-dsp/` and supplied starter WASM files
+are retained; no external gesture-recognition library is used.
 
-1. Connect headphones and begin with low system volume.
-2. Tap **Enable sensors** and grant motion/orientation access when prompted. Check **Motion** and **Orientation** separately; each should report incoming data for its relevant modes.
-3. Tap **Start audio**, then choose a mapping. Use **Stop audio** to stop playback.
-4. For **Tilt**, hold the phone flat in your hand and tap **Calibrate level** before tilting it.
+## Run
 
-| Mode | Action | Sound and interaction |
-| --- | --- | --- |
-| Shake | Deliberately shake the phone back and forth. | Alternating acceleration peaks trigger bell strikes, like a virtual handbell. |
-| Tilt | Hold the phone flat and tilt it from side to side. | Tilt magnitude continuously controls wind force; returning to center reduces it. |
-| Large motion | Make one strong, controlled movement while holding the phone. | High acceleration triggers thunder; small movements are ignored. |
-| Point up | Point the phone's top edge toward the ceiling and hold briefly. | A stable upward pose triggers one photon torpedo; lowering the phone rearms it. |
-
-The **Run gesture demo (synthetic)** control exercises each mapping on a desktop. Synthetic input is labelled and does not replace a real phone trial. The large-movement detector measures acceleration, not travel distance; a slow movement over a large distance can remain silent.
-
-Motion APIs require a suitable secure context and browser permission. Use HTTPS on the phone. A plain HTTP address on the laptop's local network may display the page without delivering sensor events. If access is denied, restore the site's motion permission in the browser and reopen it. Keep the page visible during the demonstration.
-
-## Troubleshooting
-
-- **No sound on iPhone:** switch the phone from silent mode to ring mode. iOS can mute browser audio when the silent switch is enabled. Also check the system volume and headphone connection.
-- **Old GitHub Pages version:** Pages and phone caches can take a little time to refresh after a push. Reload the page, open it in a private tab, or clear the site's cached data if the interface does not show the latest controls.
-- **Custom Faust model is silent:** its parameter address must match the generated metadata. The checked-in app already uses the current addresses, including `/churchBell/gate` for the bell model.
-
-## Run locally
-
-With Node.js installed, run from this repository:
+Serve the repository over HTTP/HTTPS so the browser can load WebAssembly:
 
 ```sh
-npm run serve
+npx serve .
 ```
 
-Or, without invoking npm:
+Open `index.html`, `sound2.html`, or `sound3.html`. Press **Turn On DSP** first.
+On iOS, press **Request Permission** and allow motion access. The starter UI also
+provides desktop mouse rehearsal through `mousePressed()`.
 
-```sh
-node tools/serve.mjs
-```
+Use headphones and start at a low volume. Physical-phone verification and
+laboratory-assistant approval still need to be demonstrated during the lab.
 
-Open the address printed by the server. The checked-in application and WASM assets require no package installation for local playback. Serve the directory over HTTP rather than opening `index.html` through `file://`, so the browser can load WASM correctly.
+## Source and submission
 
-## Verify and rebuild
+- GitHub: https://github.com/HaoranZhai/DT2140-Sound-Interaction-Lab
+- GitHub Pages: https://haoranzhai.github.io/DT2140-Sound-Interaction-Lab/
+- Canvas text: `docs/CANVAS_SUBMISSION.txt`
+- Design report: `docs/LAB_REPORT.md`
 
-The automated software tests use Node's built-in test runner:
-
-```sh
-npm test
-node tools/check-audio.mjs
-```
-
-Current software checks cover **18 gesture tests and 7 audio tests (25/25 passing)**. The gesture checks cover positive/negative inputs, repeatable shake retriggering, thresholds, cooldowns, calibration, missing data, and angle handling. The audio checks cover loading, playback lifecycle, parameter clamping, switching modes, stopping, and missing-asset failure.
-
-The offline audio check executes all four actual Faust WASM models through the course DSP bridge. Each produces finite, nonzero stereo samples. The browser adds a perceptual lift at low wind force and caps the wind model's upper frequency control to avoid a piercing high-angle sound. Numerical results are saved in [audio/validation.json](audio/validation.json). These checks do not establish physical sensor behavior or subjective listening quality.
-
-To regenerate the audio assets from the course DSP sources:
-
-```sh
-npm ci
-npm run build:audio
-node tools/check-audio.mjs
-npm test
-```
-
-The development compiler is pinned to **`@grame/faustwasm@0.20.2`**. [audio/build-manifest.json](audio/build-manifest.json) records compiler details, source hashes, and generated asset hashes. Rebuilding needs the development dependency; using the published app does not. See [audio implementation notes](docs/AUDIO_IMPLEMENTATION.md) for model controls and verification details.
-
-## Files and provenance
-
-| Location | Purpose |
-| --- | --- |
-| `index.html`, `styles.css`, `js/` | Interface, sensor handling, gesture processing, and audio control. |
-| `faust-dsp/` | Original course sound-model sources and their notices. |
-| `audio/` | Compiled WASM, parameter metadata, build manifest, and numerical validation. |
-| `tests/`, `tools/` | Automated checks, offline rendering, build script, and local server. |
-| `docs/` | Mapping rationales, Chinese demonstration guide, and submission text. |
-
-This project is based on the [DT2140 course starter](https://github.com/smc-kth/DT2140-Sound-Interaction-Lab). The original repository [license](LICENSE) and sound-source authorship notices are retained. The four sound models are ChurchBell, Wind, Thunder, and Sci-Fi Torpedo; they are course-provided synthesis models rather than recordings created for this submission.
-
-## Remaining examination steps
-
-The implementation and software checks are documented, and the GitHub Pages deployment is live. Physical-phone verification and laboratory-assistant approval have not yet been recorded. Test all four mappings and their negative controls on the phone used for the lab, record the device/browser details, and demonstrate the work to an assistant. At least three connections must be approved to pass. No separate partner or individual-work approval is claimed.
+The repository is based on the course starter by Maurizio Berta and Laura McHugh.
+Sound models are Faust examples associated with *Designing Sound* and are used
+through the provided `dsp.js` Web Audio bridge.
