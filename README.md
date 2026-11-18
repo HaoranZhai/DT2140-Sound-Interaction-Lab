@@ -29,6 +29,12 @@ The **Run gesture demo (synthetic)** control exercises each mapping on a desktop
 
 Motion APIs require a suitable secure context and browser permission. Use HTTPS on the phone. A plain HTTP address on the laptop's local network may display the page without delivering sensor events. If access is denied, restore the site's motion permission in the browser and reopen it. Keep the page visible during the demonstration.
 
+## Troubleshooting
+
+- **No sound on iPhone:** switch the phone from silent mode to ring mode. iOS can mute browser audio when the silent switch is enabled. Also check the system volume and headphone connection.
+- **Old GitHub Pages version:** Pages and phone caches can take a little time to refresh after a push. Reload the page, open it in a private tab, or clear the site's cached data if the interface does not show the latest controls.
+- **Custom Faust model is silent:** its parameter address must match the generated metadata. The checked-in app already uses the current addresses, including `/churchBell/gate` for the bell model.
+
 ## Run locally
 
 With Node.js installed, run from this repository:
