@@ -76,9 +76,13 @@ function deviceShaken() {
 
 function playAudio() {
     if (!dspNode) {
+        console.warn("Bell DSP is not ready yet");
         return;
     }
     if (audioContext.state === 'suspended') {
+        audioContext.resume().then(playAudio).catch(error => {
+            console.warn("Audio context could not be resumed", error);
+        });
         return;
     }
     dspNode.setParamValue("/englishBell/gate", 1);
