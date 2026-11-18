@@ -37,10 +37,10 @@ function accelerationChange(accx, accy, accz) {
 }
 
 function rotationChange(rotx, roty, rotz) {
-    // A phone pointing upward is close to 90 degrees away from a flat pose.
-    // Using the larger tilt axis works in either portrait or landscape rotation.
-    const tiltFromFlat = Math.max(Math.abs(rotx), Math.abs(roty));
-    const pointingUp = tiltFromFlat >= 65;
+    // Use the signed pitch direction: positive pitch is the phone's top edge
+    // moving toward the ceiling. Using absolute values would also fire when
+    // the phone points down.
+    const pointingUp = rotx >= 65;
 
     if (pointingUp && torpedoArmed) {
         if (!pointingUpSince) {
@@ -50,7 +50,7 @@ function rotationChange(rotx, roty, rotz) {
             playAudio();
             torpedoArmed = false;
         }
-    } else if (!pointingUp) {
+    } else if (rotx < 45) {
         pointingUpSince = 0;
         torpedoArmed = true;
     }
