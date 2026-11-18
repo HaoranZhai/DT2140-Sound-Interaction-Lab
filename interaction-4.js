@@ -56,10 +56,6 @@ function rotationChange(rotx, roty, rotz) {
     }
 }
 
-function mousePressed() {
-    playAudio();
-}
-
 function playAudio() {
     if (!dspNode || audioContext.state === 'suspended') {
         return;
