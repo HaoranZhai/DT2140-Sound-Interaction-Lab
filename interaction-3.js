@@ -89,11 +89,6 @@ function rotationChange(rotx, roty, rotz) {
     playAudio(smoothedPressure);
 }
 
-function mousePressed() {
-    playAudio(mouseX / windowWidth);
-    // Use this for debugging from the desktop!
-}
-
 //==========================================================================================
 // AUDIO INTERACTION
 //------------------------------------------------------------------------------------------

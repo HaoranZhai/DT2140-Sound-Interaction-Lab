@@ -96,11 +96,6 @@ function accelerationChange(accx, accy, accz) {
 function rotationChange(rotx, roty, rotz) {
 }
 
-function mousePressed() {
-    playAudio();
-    // Use this for debugging from the desktop!
-}
-
 function deviceShaken() {
     shaketimer = millis();
     statusLabels[0].style("color", "pink");
