@@ -56,6 +56,8 @@ function accelerationChange(accx, accy, accz) {
 }
 
 function rotationChange(rotx, roty, rotz) {
+    turntimer = millis();
+    statusLabels[1].style("color", "pink");
     // Map the phone's roll angle to brass pressure.  The pressure is clamped
     // because the Faust parameter is defined on [0, 1].
     const pressure = Math.max(0, Math.min(1, Math.abs(rotz) / 90));
@@ -65,27 +67,6 @@ function rotationChange(rotx, roty, rotz) {
 function mousePressed() {
     playAudio(mouseX / windowWidth);
     // Use this for debugging from the desktop!
-}
-
-function deviceMoved() {
-    movetimer = millis();
-    statusLabels[2].style("color", "pink");
-}
-
-function deviceTurned() {
-    threshVals[1] = turnAxis;
-}
-function deviceShaken() {
-    shaketimer = millis();
-    statusLabels[0].style("color", "pink");
-}
-
-function getMinMaxParam(address) {
-    const exampleMinMaxParam = findByAddress(dspNodeParams, address);
-    // ALWAYS PAY ATTENTION TO MIN AND MAX, ELSE YOU MAY GET REALLY HIGH VOLUMES FROM YOUR SPEAKERS
-    const [exampleMinValue, exampleMaxValue] = getParamMinMax(exampleMinMaxParam);
-    console.log('Min value:', exampleMinValue, 'Max value:', exampleMaxValue);
-    return [exampleMinValue, exampleMaxValue]
 }
 
 //==========================================================================================

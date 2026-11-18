@@ -63,26 +63,10 @@ function mousePressed() {
     // Use this for debugging from the desktop!
 }
 
-function deviceMoved() {
-    movetimer = millis();
-    statusLabels[2].style("color", "pink");
-}
-
-function deviceTurned() {
-    threshVals[1] = turnAxis;
-}
 function deviceShaken() {
     shaketimer = millis();
     statusLabels[0].style("color", "pink");
     playAudio();
-}
-
-function getMinMaxParam(address) {
-    const exampleMinMaxParam = findByAddress(dspNodeParams, address);
-    // ALWAYS PAY ATTENTION TO MIN AND MAX, ELSE YOU MAY GET REALLY HIGH VOLUMES FROM YOUR SPEAKERS
-    const [exampleMinValue, exampleMaxValue] = getParamMinMax(exampleMinMaxParam);
-    console.log('Min value:', exampleMinValue, 'Max value:', exampleMaxValue);
-    return [exampleMinValue, exampleMaxValue]
 }
 
 //==========================================================================================

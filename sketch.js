@@ -14,7 +14,7 @@ let threshVals = [0, " ", 0];
 let labels = ["", "Acceleration X", "Acceleration Y", "Acceleration Z", "", "Rotation X", "Rotation Y", "Rotation Z"];
 let labelIDs = ["", "accx", "accy", "accz", "", "rotX", "rotY", "rotZ"];
 let vals = [];
-let stateLabels = ["shaken", "turned", "moved"];
+let stateLabels = ["shake detected", "rotation sampled", "large movement"];
 let buttons = [];
 let buttonWidth;
 let buttonLabels = ["Turn On DSP", "Request Permission"];
@@ -100,7 +100,7 @@ function setup() {
   dSlider2.id("slider2");
   dSlider2.parent(statBox.elt);
 
-  sliders[3] = createP("move threshold");
+  sliders[3] = createP("large-movement threshold");
   sliders[3].parent(dSlider2.elt);
 
   sliders[2] = createSlider(0, 75, 50, 1); //move thresh, 0 - 75, default = 50, step = 1
