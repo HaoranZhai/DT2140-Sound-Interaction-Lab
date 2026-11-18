@@ -52,7 +52,45 @@ window[dspName].createDSP(audioContext, 1024)
 //==========================================================================================
 
 function accelerationChange(accx, accy, accz) {
-    // The starter sketch already detects a shake and calls deviceShaken().
+    const now = millis();
+    const current = { x: accx, y: accy, z: accz };
+    if (!accelerationChange.previous) {
+        accelerationChange.previous = current;
+        accelerationChange.previousDelta = null;
+        return;
+    }
+
+    const delta = {
+        x: current.x - accelerationChange.previous.x,
+        y: current.y - accelerationChange.previous.y,
+        z: current.z - accelerationChange.previous.z
+    };
+    const magnitude = Math.hypot(delta.x, delta.y, delta.z);
+    accelerationChange.previous = current;
+
+    if (magnitude < 5.5 || now < (accelerationChange.cooldownUntil || 0)) {
+        return;
+    }
+
+    const previousDelta = accelerationChange.previousDelta;
+    accelerationChange.previousDelta = delta;
+    if (previousDelta && (now - (accelerationChange.lastPeak || 0)) >= 60) {
+        const alternating =
+            delta.x * previousDelta.x +
+            delta.y * previousDelta.y +
+            delta.z * previousDelta.z < 0;
+        if (alternating) {
+            accelerationChange.peaks = (accelerationChange.peaks || [])
+                .filter(time => now - time <= 900);
+            accelerationChange.peaks.push(now);
+            accelerationChange.lastPeak = now;
+            if (accelerationChange.peaks.length >= 2) {
+                playAudio();
+                accelerationChange.peaks = [];
+                accelerationChange.cooldownUntil = now + 300;
+            }
+        }
+    }
 }
 
 function rotationChange(rotx, roty, rotz) {
@@ -66,7 +104,11 @@ function mousePressed() {
 function deviceShaken() {
     shaketimer = millis();
     statusLabels[0].style("color", "pink");
-    playAudio();
+    // p5.js remains a fallback for devices that do not expose usable deltas.
+    if (millis() >= (accelerationChange.cooldownUntil || 0)) {
+        playAudio();
+        accelerationChange.cooldownUntil = millis() + 300;
+    }
 }
 
 //==========================================================================================

@@ -82,9 +82,10 @@ function rotationChange(rotx, roty, rotz) {
     while (delta > 180) delta -= 360;
     while (delta < -180) delta += 360;
 
-    // Keep the brass model below its piercing maximum, then smooth the control.
-    const targetPressure = Math.min(0.65, Math.abs(delta) / 55 * 0.65);
-    smoothedPressure += 0.12 * (targetPressure - smoothedPressure);
+    // Use a nonlinear curve for a more obvious change, while keeping a safe cap.
+    const normalized = Math.min(1, Math.abs(delta) / 55);
+    const targetPressure = Math.min(0.82, Math.pow(normalized, 1.35) * 0.82);
+    smoothedPressure += 0.18 * (targetPressure - smoothedPressure);
     playAudio(smoothedPressure);
 }
 
