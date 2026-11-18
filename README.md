@@ -9,8 +9,8 @@ page, `sound4.html`, uses the same template for the optional point-up mapping.
 
 ## Connections
 
-1. Shake the phone → English church bells (`bells.wasm`). The starter sketch's
-   shake callback opens the Faust bell gate, matching the familiar action of a handbell.
+1. Shake the phone → English church bells (`bells.wasm`). The interaction layer
+   detects two alternating acceleration peaks in a short window and opens the bell gate.
 2. Make a large movement → Thunder (`tuono.wasm`). The p5 movement threshold is
    used to ignore small movements and trigger a short thunder rumble for a strong gesture.
 3. Tilt/roll the phone → Brass (`brass.wasm`). The roll angle is continuously mapped
